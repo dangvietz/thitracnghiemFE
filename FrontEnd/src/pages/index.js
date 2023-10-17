@@ -1,0 +1,13 @@
+export { default as LoginPage } from "./auth/LoginPage";
+export { default as CreditClassesPage } from "./creditClasses/CreditClassesPage";
+export { default as Dashboard } from "./dashboard/Dashboard";
+export { default as ExamsPage } from "./exams/ExamsPage";
+export { default as QuestionsPage } from "./questions/QuestionsPage";
+export { default as RanksPage } from "./ranks/RanksPage";
+export { default as RegistersPage } from "./registers/RegistersPage";
+export { default as RolesPage } from "./roles/RolesPage";
+export { default as SubjectsPage } from "./subjects/SubjectsPage";
+export { default as TakeTestPage } from "./takeTests/TakeTestPage";
+export { default as TestsPage } from "./tests/TestsPage";
+export { default as UsersPage } from "./users/UsersPage";
+export { default as RegisterUserPage } from "./auth/RegisterUserPage";
