@@ -46,7 +46,7 @@ function TestsPage() {
         filterObject,
         loading,
         addTest: { successMessage },
-        editTest: { successMessage: esSuccessMessage },
+        editTest: { successMessage: esSuccessMessage, error: editTestError },
         deleteTest: { successMessage: dsSuccessMessage, errorMessage: dtErrorMessage },
         enableOrDisableTest: { successMessage: eodTest },
     } = useSelector(testState);
@@ -314,7 +314,13 @@ function TestsPage() {
             cleanForm(esSuccessMessage, "edit");
         }
     }, [esSuccessMessage]);
-
+    
+    useEffect(() => {
+        if (editTestError && editTestError[0] && editTestError[0].name) {
+            const errorMessage = editTestError[0].name;
+            toast.error(errorMessage, { autoClose: 5000 });
+        }
+    }, [editTestError]);
     useEffect(() => {
         if (dsSuccessMessage) {
             cleanForm(dsSuccessMessage, "delete");

@@ -203,6 +203,13 @@ const UsersPage = () => {
                     });
                     return;
                 }
+                else if (data.password.length > 32) {
+                    setError("roles", {
+                        type: "custom",
+                        message: "Mật khẩu tối đa 32 ký tự",
+                    });
+                    return;
+                }
             }
 
             dispatch(editUser(formData));

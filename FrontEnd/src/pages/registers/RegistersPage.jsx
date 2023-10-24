@@ -240,7 +240,7 @@ function RegistersPage() {
                     handleAddMultipleFromExcelFile={handleAddMultipleFromExcelFile}
                     Filter={RegisterFilter}
                     recordsPerPage={15}
-                    // loading={loading}
+                     loading={loading}
                     excelAdd={registerExcelAdd}
                 />
             }

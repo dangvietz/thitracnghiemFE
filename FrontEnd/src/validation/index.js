@@ -1,5 +1,4 @@
 import * as yup from "yup";
-
 export const subjectSchema = yup
     .object({
         id: yup
@@ -18,6 +17,7 @@ export const subjectSchema = yup
             .number()
             .typeError("Số tiết thực hành phải là chữ số")
             .required("Số tiết thực hành không được để trống"),
+        
     })
     .required();
 
@@ -41,11 +41,11 @@ export const userSchema = yup
         firstName: yup
             .string()
             .required("Tên không được để trống")
-            .max(100, "Tên không được quá 100 ký tự"),
+            .max(10, "Tên không được quá 100 ký tự"),
         lastName: yup
             .string()
             .required("Họ không được để  trống")
-            .max(100, "Họ không được quá 100 ký tự"),
+            .max(10, "Họ không được quá 100 ký tự"),
         email: yup
             .string()
             .required("Địa chỉ email không được để  trống")
@@ -56,55 +56,97 @@ export const userSchema = yup
     })
     .required();
 
-export const userRegisterSchema = yup
-    .object({
+    export const userRegisterSchema = yup.object({
         id: yup
-            .string()
-            .required("Mã người dùng không được để trống")
-            .max(10, "Mã người dùng không được quá 10 ký tự"),
+          .string()
+          .required("Mã người dùng không được để trống")
+          .max(10, "Mã người dùng không được quá 10 ký tự")
+          .min(4, "Mã người dùng ít nhất 4 ký tự"),
         firstName: yup
-            .string()
-            .required("Tên không được để trống")
-            .max(100, "Tên không được quá 100 ký tự"),
+          .string()
+          .required("Tên không được để trống")
+          .max(10, "Tên không được quá 10 ký tự"),
         lastName: yup
-            .string()
-            .required("Họ không được để  trống")
-            .max(100, "Họ không được quá 100 ký tự"),
+          .string()
+          .required("Họ không được để trống")
+          .max(10, "Họ không được quá 10 ký tự"),
         email: yup
-            .string()
-            .required("Địa chỉ email không được để  trống")
-            .email("Địa chỉ email không đúng định dạng"),
-        birthday: yup.string().required("Ngày sinh không được để  trống"),
-        sex: yup.string().required("Giới tính không được để  trống"),
-    })
-    .required();
-
+          .string()
+          .required("Địa chỉ email không được để trống")
+          .email("Địa chỉ email không đúng định dạng"),
+        password: yup
+          .string()
+          .test("password", "Mật khẩu ít nhất 8 ký tự", (value) => {
+            if (value && value.length > 0) {
+              return value.length >= 8;
+            }
+            return true; // Passes validation if the password is empty
+          })
+          .test("password", "Mật khẩu không được quá 32 ký tự", (value) => {
+            if (value && value.length > 0) {
+              return value.length <= 32;
+            }
+            return true; // Passes validation if the password is empty
+          }),
+        birthday: yup.string().required("Ngày sinh không được để trống"),
+        sex: yup.string().required("Giới tính không được để trống"),
+      }).required();
+      
+      
+/// đăng ký
 export const registerPageSchema = yup
     .object({
         id: yup
             .string()
             .required("Mã người dùng không được để trống")
-            .max(10, "Mã người dùng không được quá 10 ký tự"),
+            .matches(/^[a-zA-Z0-9]*$/, "Mã người dùng chỉ được chứa chữ cái và số")
+            .max(10, "Mã người dùng không được quá 10 ký tự")
+            .min(4, "Mã người dùng ít nhất 4 ký tự"),
         firstName: yup
             .string()
             .required("Tên không được để trống")
-            .max(50, "Tên không được quá 50 ký tự"),
+            .max(10, "Tên không được quá 10 ký tự"),
         lastName: yup
             .string()
-            .required("Họ không được để  trống")
+            .required("Họ không được để trống")
             .max(10, "Họ không được quá 10 ký tự"),
         email: yup
             .string()
-            .required("Địa chỉ email không được để  trống")
+            .required("Địa chỉ email không được để trống")
             .email("Địa chỉ email không đúng định dạng"),
         password: yup
             .string()
             .required("Mật khẩu không được để trống")
-            .min(8, "Mật khẩu ít nhất 8 ký tự"),
-        birthday: yup.string().required("Ngày sinh không được để  trống"),
-        sex: yup.string().required("Giới tính không được để  trống"),
+            .min(8, "Mật khẩu ít nhất 8 ký tự")
+            .max(32, "Mật khẩu tối đa 32 ký tự"),
+            birthday: yup
+  .string()
+  .matches(/^\d{2}\/\d{2}\/\d{4}$/, 'Ngày sinh không hợp lệ')
+  .test('is-old-enough', 'Vui lòng nhập ngày sinh hợp lệ', function (value) {
+    if (!value) {
+      
+      return true;
+    }
+    const parts = value.split('/');
+    const day = parseInt(parts[0], 10);
+    const month = parseInt(parts[1], 10) - 1; // 
+    const year = parseInt(parts[2], 10);
+    const date = new Date(year, month, day);
+    const currentDate = new Date();
+    const age = currentDate.getFullYear() - date.getFullYear();
+    
+    return age >= 18 && age <= 100;
+  })
+  .required('Ngày sinh không được để trống')
+,
+        sex: yup.string().required("Giới tính không được để trống"),
+        roles: yup
+        .string()
+        .required('Vai trò không được để trống')
+ 
     })
     .required();
+
 
 export const creditClassSchema = yup
     .object({

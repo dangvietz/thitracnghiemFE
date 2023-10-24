@@ -40,6 +40,12 @@ const ResetPassword = () => {
     e.preventDefault();
     setErrorMessage('');
     setLoading(true);
+   
+    if (!newPassword || !confirmNewPassword) {
+      setErrorMessage('Xin vui lòng nhập mật khẩu và xác nhận mật khẩu.');
+      setLoading(false);
+      return;
+    }
 
     try {
       const apiResponse = await axios.put(`${VITE_LOCAL_SERVER_URL}/api/auth/resetpassword?email=${email}&code=${code}`, {
@@ -51,7 +57,7 @@ const ResetPassword = () => {
       setResponse(apiResponse.data);
 
       if (apiResponse.data.success) {
-        setSuccessMessage('Password reset successfully. Redirecting to login...');
+        setSuccessMessage('Khôi phục mật khẩu thành công. Quay lại trang đăng nhập.');
         setTimeout(() => {
           navigate("/auth/login");
         }, 3000);
@@ -87,10 +93,10 @@ const ResetPassword = () => {
                 <FormControl fullWidth>
                   <TextField
                     type="password"
-                    label="New Password"
+                    label="Mật khẩu"
                     value={newPassword}
                     onChange={(e) => setNewPassword(e.target.value)}
-                    required
+                    //required
                   />
                 </FormControl>
               </div>
@@ -98,10 +104,10 @@ const ResetPassword = () => {
                 <FormControl fullWidth>
                   <TextField
                     type="password"
-                    label="Confirm New Password"
+                    label="Nhập lại mật khẩu"
                     value={confirmNewPassword}
                     onChange={(e) => setConfirmNewPassword(e.target.value)}
-                    required
+                   //required
                   />
                 </FormControl>
               </div>
@@ -119,7 +125,7 @@ const ResetPassword = () => {
                 <div className="mr-3 w-full">
                   <FormControl fullWidth>
                     <Button variant="contained" type="submit">
-                      Reset Password
+                      Đổi mật khẩu
                     </Button>
                   </FormControl>
                 </div>
